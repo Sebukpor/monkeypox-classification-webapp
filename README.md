@@ -1,7 +1,3 @@
-Here's a `README.md` file that you can include in your GitHub repository to describe the project and guide users on how to deploy and use it.
-
----
-
 ## MonkeyPox Classification Web App
 
 This project demonstrates a simple web application that uses a TensorFlow.js model to classify images as part of a MonkeyPox detection system. The model is hosted on Azure Blob Storage, and the web application is hosted via Azure Static Web Apps.
