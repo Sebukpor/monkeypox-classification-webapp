@@ -26,8 +26,8 @@ Before you start, make sure you have:
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/<your-repo-name>.git
-cd <your-repo-name>
+git clone https://github.com/<sebukpor>/<monkeypox-classification-webapp>.git
+cd <monkeypox-classification-webapp>
 ```
 
 #### 2. Update the Model URL in `index.html`
