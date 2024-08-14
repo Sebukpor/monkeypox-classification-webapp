@@ -54,9 +54,14 @@
             const tensor = tf.browser.fromPixels(imgElement)
                                     .resizeNearestNeighbor([300, 300])  // Adjust size to match your model's input
                                     .toFloat()
+                                    .div(tf.scalar(255))  // Normalize pixel values if required
                                     .expandDims();
 
+            console.log('Tensor shape:', tensor.shape);
+
             const prediction = await model.predict(tensor).data();
+            console.log('Prediction data:', prediction);
+
             const result = Array.from(prediction).map((p, i) => `Class ${i}: ${p.toFixed(4)}`).join('<br>');
 
             document.getElementById('predictionResult').innerHTML = result;
