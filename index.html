@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MonkeyPox Classification</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+</head>
+<body>
+    <h1>MonkeyPox Classification</h1>
+
+    <!-- Image Upload -->
+    <input type="file" id="imageUpload" accept="image/*">
+    <br><br>
+
+    <!-- Display Uploaded Image -->
+    <img id="uploadedImage" alt="Uploaded Image" width="200">
+    <br><br>
+
+    <!-- Button to Trigger Inference -->
+    <button onclick="makePrediction()">Predict</button>
+    <br><br>
+
+    <!-- Prediction Result -->
+    <div id="predictionResult"></div>
+
+    <script>
+        let model;
+
+        // Load the model
+        async function loadModel() {
+            const modelUrl = 'https://monkeypoxclassification.blob.core.windows.net/monkeypox/model.json?sp=r&st=2024-08-14T17:30:30Z&se=2024-12-15T01:30:30Z&sv=2022-11-02&sr=b&sig=X%2FIE0C1RuFd9hEa%2Fy1pOnrz3lvTkMIX0a5%2Fq1TZ4VlU%3D';  // Update with your model.json URL
+            model = await tf.loadLayersModel(modelUrl);
+            console.log('Model loaded successfully.');
+        }
+
+        // Call loadModel() when the page loads
+        window.onload = loadModel;
+
+        // Handle Image Upload and Display
+        document.getElementById('imageUpload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgElement = document.getElementById('uploadedImage');
+                imgElement.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Function to make a prediction
+        async function makePrediction() {
+            const imgElement = document.getElementById('uploadedImage');
+            const tensor = tf.browser.fromPixels(imgElement)
+                                    .resizeNearestNeighbor([300, 300])  // Adjust size to match your model's input
+                                    .toFloat()
+                                    .expandDims();
+
+            const prediction = await model.predict(tensor).data();
+            const result = Array.from(prediction).map((p, i) => `Class ${i}: ${p.toFixed(4)}`).join('<br>');
+
+            document.getElementById('predictionResult').innerHTML = result;
+        }
+    </script>
+</body>
+</html>
