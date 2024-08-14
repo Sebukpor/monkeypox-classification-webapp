@@ -29,7 +29,7 @@
 
         // Load the model
         async function loadModel() {
-            const modelUrl = 'https://monkeypoxclassification.blob.core.windows.net/monkeypox/model.json?sp=r&st=2024-08-14T17:30:30Z&se=2024-12-15T01:30:30Z&sv=2022-11-02&sr=b&sig=X%2FIE0C1RuFd9hEa%2Fy1pOnrz3lvTkMIX0a5%2Fq1TZ4VlU%3D';  // Update with your model.json URL
+            const modelUrl = 'https://monkeypoxclassification.blob.core.windows.net/monkeypox/model.json';  // Update with your model.json URL
             model = await tf.loadLayersModel(modelUrl);
             console.log('Model loaded successfully.');
         }
