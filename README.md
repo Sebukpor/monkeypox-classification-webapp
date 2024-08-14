@@ -29,7 +29,7 @@ Before you start, make sure you have:
 git clone https://github.com/<sebukpor>/<monkeypox-classification-webapp>.git
 cd <monkeypox-classification-webapp>
 ```
-
+####download and run the Jupiter notebook file to build your tensorflow model and save
 #### 2. Update the Model URL in `index.html`
 
 Open the `index.html` file and update the following line with the correct URL to your `model.json` file in Azure Blob Storage:
