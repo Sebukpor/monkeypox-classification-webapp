@@ -1,3 +1,4 @@
+https://raw.githubusercontent.com/Sebukpor/monkeypox-classification-webapp/main/model.json
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,9 +30,14 @@
 
         // Load the model
         async function loadModel() {
-            const modelUrl = 'https://github.com/Sebukpor/monkeypox-classification-webapp/blob/main/model.json';  // Update with your model.json URL
-            model = await tf.loadLayersModel(modelUrl);
-            console.log('Model loaded successfully.');
+            try {
+                const modelUrl = 'https://raw.githubusercontent.com/Sebukpor/monkeypox-classification-webapp/main/model.json'; // Update with your raw GitHub URL
+                model = await tf.loadLayersModel(modelUrl);
+                console.log('Model loaded successfully.');
+            } catch (error) {
+                console.error('Error loading model:', error);
+                alert('Failed to load the model.');
+            }
         }
 
         // Call loadModel() when the page loads
@@ -50,6 +56,10 @@
 
         // Function to make a prediction
         async function makePrediction() {
+            if (!model) {
+                alert('Model not loaded yet!');
+                return;
+            }
             const imgElement = document.getElementById('uploadedImage');
             const tensor = tf.browser.fromPixels(imgElement)
                                     .resizeNearestNeighbor([300, 300])  // Adjust size to match your model's input
@@ -59,13 +69,19 @@
 
             console.log('Tensor shape:', tensor.shape);
 
-            const prediction = await model.predict(tensor).data();
-            console.log('Prediction data:', prediction);
+            try {
+                const prediction = await model.predict(tensor).data();
+                console.log('Prediction data:', prediction);
 
-            const result = Array.from(prediction).map((p, i) => `Class ${i}: ${p.toFixed(4)}`).join('<br>');
+                const result = Array.from(prediction).map((p, i) => `Class ${i}: ${p.toFixed(4)}`).join('<br>');
 
-            document.getElementById('predictionResult').innerHTML = result;
+                document.getElementById('predictionResult').innerHTML = result;
+            } catch (error) {
+                console.error('Error during prediction:', error);
+                alert('Failed to make a prediction.');
+            }
         }
     </script>
 </body>
 </html>
+
