@@ -62,7 +62,7 @@ https://raw.githubusercontent.com/Sebukpor/monkeypox-classification-webapp/main/
             }
             const imgElement = document.getElementById('uploadedImage');
             const tensor = tf.browser.fromPixels(imgElement)
-                                    .resizeNearestNeighbor([300, 300])  // Adjust size to match your model's input
+                                    .resizeNearestNeighbor([300, 300, 3])  // Adjust size to match your model's input
                                     .toFloat()
                                     .div(tf.scalar(255))  // Normalize pixel values if required
                                     .expandDims();
